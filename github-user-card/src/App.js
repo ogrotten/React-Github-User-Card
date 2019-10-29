@@ -12,17 +12,19 @@ class App extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			user: {}
+			user: {},
+			followers: null
 		};
+		this.defaultUser = "ogrotten";
 	}
 
 	componentDidMount() {
-		clg(">>> Mount");
+		// clg(">>> Mount");
 		axios
 			.get("https://api.github.com/users/ogrotten")
 			.then(res => {
-				this.setState({user: res.data}) 
-				clg(this.state.user);
+				this.setState({ user: res.data });
+				// clg(this.state.user);
 			})
 			.catch(err => {
 				clg(`Problem: ${err}`);
@@ -31,6 +33,17 @@ class App extends React.Component {
 
 	componentDidUpdate() {
 		clg(">>> UpD");
+		if (this.state.followers === null && this.state.user.followers > 0) {
+			axios
+				.get("https://api.github.com/users/ogrotten/followers")
+				.then(res => {
+					this.setState({ followers: res.data });
+					// clg(this.state.followers);
+				})
+				.catch(err => {
+					clg(`Problem: ${err}`);
+				});
+		}
 	}
 
 	render() {
@@ -40,11 +53,10 @@ class App extends React.Component {
 				<User
 					// followers={this.state.user.followers}
 					// ava={this.state.user.avatar_url}
-					user={this.state.user}
-					>
-				</User>
+					user={this.state.user} followers={this.state.followers}
+				></User>
 			</div>
-		)
+		);
 	}
 }
 

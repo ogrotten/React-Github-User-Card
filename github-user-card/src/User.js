@@ -1,25 +1,45 @@
 import React from "react";
 // import ReactDOM from "react-dom";
 // import axios from "axios";
-// import styled from "styled-components";
+import styled from "styled-components";
 
 function clg(...x) {
 	for (let exes of x) console.log(exes);
 }
 
+const Boxx = styled.div`
+	border: 1px solid silver;
+	margin: 20px;
+	padding: 20px;
+	background-color: #eef;
+`;
+const Imgg = styled.img`
+	width: 75px;
+	height: 75px;
+`;
+
 export default function User(props) {
-	clg(props.user);
+	clg(">>> in User comp");
+	clg(props.followers);
+	const followerbox = props.followers
+		? props.followers.map(item => {
+				clg(item.login);
+				return <Boxx>{item.login}</Boxx>;
+		  })
+		: null;
+
 	return (
-		<>
-			<div>{props.user.followers}</div>
+		<Boxx>
+			{/* <div>{props.user.followers}</div> */}
 			<div className="card">
-				<img src={props.user.avatar_url} alt="" />
+				<Imgg src={props.user.avatar_url} alt="" />
 				<div className="card-info">
-					<h3 class="name">{props.user.name}</h3>
+					<h3 className="name">{props.user.name}</h3>
 					<p>Location: {!props.user.location && "(not given)"}</p>
 					<p>Bio: {!props.user.bio && "(not given)"}</p>
 				</div>
+				{followerbox}
 			</div>
-		</>
+		</Boxx>
 	);
 }
