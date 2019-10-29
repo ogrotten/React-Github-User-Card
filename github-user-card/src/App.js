@@ -37,7 +37,12 @@ class App extends React.Component {
 		return (
 			<div className="App">
 				MEH
-				<User followers={this.state.user.followers}></User>
+				<User
+					// followers={this.state.user.followers}
+					// ava={this.state.user.avatar_url}
+					user={this.state.user}
+					>
+				</User>
 			</div>
 		)
 	}
